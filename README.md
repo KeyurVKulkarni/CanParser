@@ -4,7 +4,7 @@ _[Interim description ; rough draft, open to suggestions ; not completely formul
 
 ## Developer's Note
 
-For using this program I think it would be in the best interest of the user to specify all arguments in the commandline along with lua file compilation/interpretation. Else some stupid menu need to be devised which accpets user value, which I think is overly complicated and cringy to the developer (and, sometimes, to the user). Future versions might support it, at least this feature not present for now. Look out for future release notes.
+For using this program I think it would be in the best interest of the user to specify all arguments in the command line along with Lua program compilation/interpretation. Else some stupid menu need to be devised for beginning with the program which accpets user value, which I think is overly complicated and cringy to the developer (and, sometimes, to the user). Future versions might support it, at least this feature not present for now. Look out for future release notes. Godspeed.
 
 ## Arguments for the Script Call
 
@@ -32,6 +32,8 @@ lua54 parser.lua argument_1 argument_2 argument_3 >argument_4
 + **Data Tags** : Name a data tag and assign it certain bits from the data payload of certain CAN ID(s). Observe the variation of the value of these bits in the CAN Trace file w.r.t time. Addresses the spatial multiplexing of the Data Payload for accomodating multiple Data fields.
 
 + **Temporal Tags** : Name a temporal tag and assign it a CAN ID. Assign it a dependency (dependency = element that will differentiate between different versions of the CAN ID in time). Addresses the time multiplexing of the Data Payload for accomodating multiple Data fields.
+
++ **Enum Tag** : If a Value or Range of Values of the Data Tag correspond to certain discrete state OR condition OR enumeration then those can be identified by selecting the relevant Data tag and defining the name corresponding the Value or Range of Values.
 
 + **Data scaling** : Scale every occurence of a data component by a constant. This might be helpful for unit conversions.
 
