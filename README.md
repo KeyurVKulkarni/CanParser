@@ -20,7 +20,7 @@ For using this program I think it would be in the best interest of the user to s
 
 + _argument 4_ = output file name where the output of this script needs to be stored. e.g.: file_name.txt
     
-## Calling the Script
+## Executing the Script
 
 Resultant command in the terminal will look like this. User can fill in the arguments as they like as per the description mentioned above :
 ```
