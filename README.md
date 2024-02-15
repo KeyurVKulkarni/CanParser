@@ -6,7 +6,14 @@ _[Interim description ; rough draft, open to suggestions ; not completely formul
 
 For using this program I think it would be in the best interest of the user to specify all arguments in the command line along with Lua program compilation/interpretation. Else some stupid menu need to be devised for beginning with the program which accpets user value, which I think is overly complicated and cringy to the developer (and, sometimes, to the user). Future versions might support it, at least this feature not present for now. Look out for future release notes. Godspeed.
 
-## Planned Arguments for the Script Call
+## Executing the Script
+
+Resultant command in the terminal will look like this. User can fill in the arguments as they like as per the description mentioned above :
+```
+lua54 parser.lua argument_1 argument_2 argument_3 >argument_4
+```
+
+### Planned Arguments for the Script Call
 
 + _argument 1_ = Filename along with the extension. e.g.: file_name.txt. It would be in the best interest of the program's purpose to have a .txt file.
 
@@ -19,13 +26,6 @@ For using this program I think it would be in the best interest of the user to s
     - _option 2_ = Only data payload.
 
 + _argument 4_ = output file name where the output of this script needs to be stored. e.g.: file_name.txt
-    
-## Executing the Script
-
-Resultant command in the terminal will look like this. User can fill in the arguments as they like as per the description mentioned above :
-```
-lua54 parser.lua argument_1 argument_2 argument_3 >argument_4
-```
 
 ## Planned Features: -
 
