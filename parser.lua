@@ -59,7 +59,7 @@ while index ~= nil do
     -- GET THE REQUIRED CAN ID AND FIND IT IN THE CAN TRACE FILE
     ----------------------------------------------------------------------------------------------------------------------------------------------
 
-    canId = arg[2]                              -- reading the CAN ID passed along with the run command.
+    canId = string.upper(arg[2])                -- reading the CAN ID passed along with the run command.
     canId_len = string.len(canId)               -- determining the length of the CAN ID (can change between Extened and Standard addressing).
     index = string.find(text, canId, index)     -- getting the place in the file where the required CAN ID begins.
     -- print(canId_len)                         -- DEBUG MESSAGE
