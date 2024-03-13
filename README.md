@@ -10,6 +10,12 @@ For using this program I think it would be in the best interest of the user to s
 
 Not much to comment after the above. The parser has proven to be useful for me. Once the right interpretation for the CAN ID is designed, parsing the CAN ID takes seconds and visualing the Data points takes couple of minutes. Process can get streamlined after next release with the support of Data Tags. Thanks for using my Parser. Any feedback will be hugely appreciated!
 
+## Getting Lua
+
++ _Get Lua 5.4 binaries_ = Can use this link to [download this Zip folder]{https://drive.google.com/file/d/1b_IUj9JAIjPRejbMNKRkLzmoJ08spBAK/view?usp=drive_link} from my Drive. Unzip and place it in any known location.
++ _Place the path of the link in System Environment variables' Path_
++ _Open Powershell session anywhere and verify by executing 'lua54' in the Command Line._
+
 ## Executing the Script
 
 Resultant command in the terminal will look like this. User can fill in the arguments as they like as per the description mentioned above :
