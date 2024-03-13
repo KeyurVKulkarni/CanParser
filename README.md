@@ -12,7 +12,7 @@ Not much to comment after the above. The parser has proven to be useful for me. 
 
 ## Getting Lua
 
-+ _Get Lua 5.4 binaries_ = Can use this link to [download this Zip folder]{https://drive.google.com/file/d/1b_IUj9JAIjPRejbMNKRkLzmoJ08spBAK/view?usp=drive_link} from my Drive. Unzip and place it in any known location.
++ _Get Lua 5.4 binaries_ = Can use this link to [download this Zip folder](https://drive.google.com/file/d/1b_IUj9JAIjPRejbMNKRkLzmoJ08spBAK/view?usp=drive_link) from my Drive. Unzip and place it in any known location.
 + _Place the path of the link in System Environment variables' Path_
 + _Open Powershell session anywhere and verify by executing 'lua54' in the Command Line._
 
