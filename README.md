@@ -25,11 +25,11 @@ lua54 parser.lua argument_1 argument_2 >argument_3
 
 ### Planned Arguments for the Script Call
 
-+ _argument 1_ = Filename along with the extension. e.g.: file_name.trc. It would be in the best interest of the program's purpose to have a .trc file.
++ _argument 1_ = Filename along with the extension (case sensetive) . e.g.: file_name.trc. It would be in the best interest of the program's purpose to have a .trc file.
 
-+ _argument 2_ = CAN ID (like we use it in Hex format) e.g.: 18FF51D0
++ _argument 2_ = CAN ID (like we use it in Hex format) (case agnostic) e.g.: 18FF51D0
 
-+ _argument 3_ = output file name where the output of this script needs to be stored. e.g.: file_name.txt
++ _argument 3_ = output file name where the output of this script needs to be stored. If no file of your given name is present then new file will be created. Else if file is present then it is over-written. Please take note! This is currently a limitation; will be fixed later. e.g.: file_name.txt
 
 ### Output generated per occurence of the required CAN ID
 
@@ -40,7 +40,11 @@ lua54 parser.lua argument_1 argument_2 >argument_3
 ## Next Release (hopefully before April, 2024) will include: -
 
 + _Dialog box for input arguments_ = Since the number of arguments are expected to increase, accomodating them will be quite tricky for the User. Instead, entering those arguments that are being requested by the Dialog box, present on the command line itself, will sort input handling to the Parser.
-+ _Support for Data Tags_ = Configurable interpretation for the Data Payload is necessary as Data Payloads of different CAN IDs are different. 
++ _Support for Data Tags_ = Configurable interpretation for the Data Payload is necessary as Data Payloads of different CAN IDs are different.
+
+## Future Releases before v1.0.1 shall contain: -
+
++ _Automatic output file_ = This exists to curb the drawback of potentially losing previous data if user-specified output file is already used before. The output file name will not be configurable as possibility of over-writing previous outputs exists. It is better to have different output files for different executions. Output file indentifier can be used for keeping track among different executions. It is left to the user to clear output files of unwanted executions.
 
 ## Basic features for the CAN trace parser (in v1.0.1) will include: -
 
