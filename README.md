@@ -24,6 +24,8 @@ lua54 parser.lua argument_1 argument_2 >argument_3
 
 ### Arguments for '_parser.lua_' Script Call >>
 
+Lua seperates its argument on the basis of 'space' i.e. ' ' character. Hence, make sure you enter the arguments carefully, as described.
+
 + _argument 1_ = Filename along with the extension (case sensetive) . e.g.: file_name.trc. It would be in the best interest of the program's purpose to have a .trc file. It is also the same file that is generated from PCAN-View when a CAN trace is saved.
 
 + _argument 2_ = CAN ID (like we use it in Hex format) (case agnostic) e.g.: 18FF51D0
@@ -61,6 +63,8 @@ lua54 parser.lua argument_1 >argument_2
 ```
 
 ### Arguments for '_parser_cellVoltage.lua_' Script Call >>
+
+Lua seperates its argument on the basis of 'space' i.e. ' ' character. Hence, make sure you enter the arguments carefully, as described.
 
 + _argument 1_ = Filename along with the extension (case sensetive) . e.g.: file_name.trc. It would be in the best interest of the program's purpose to have a .trc file. It is also the same file that is generated from PCAN-View when a CAN trace is saved.
 
