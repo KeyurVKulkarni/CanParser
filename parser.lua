@@ -40,14 +40,18 @@ betweenCanIdAndTiming = 21          -- number of characters between the beginnin
 betweenTimingAndSerial = 7          -- number of characters between the beginning of the Timing field and the Serial number field.
 
 timeField_txtLen = 12               -- number of characters present in the Timing field that are to be read.
+data_payload_txt_len = 0            -- number of characters present in the Data Payload field that are to be read. Configured automatically as per the Data Payload Length field.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 -- VARIABLES THAT STORE THE REQUIRED FIELDS OF THAT CAN TRACE RECORD
 ----------------------------------------------------------------------------------------------------------------------------------------------
 
-serialNum = 0       -- houses the Serial Number field from CAN trace.
-timing = 0          -- houses the Message Timing field from CAN trace.
-data_output = 1     -- houses the string to be printed after concatenation of all fields.
+serialNum = 0           -- houses the Serial Number field from CAN trace.
+timing_present = 0      -- houses the Message Timing field from the CAN trace of the current occurence of the given CAN ID.
+timing_past = 0         -- houses the Message Timing field from the CAN trace of the previous occurence of the given CAN ID. 
+timing_increment = 0    -- houses the amount of time after which current occurence of the CAN ID has appeared as compared to the past.
+data_output = 1         -- houses the string to be printed after concatenation of all fields.
+data_payload_len = 0    -- houses the Data Payload Length field from the CAN trace.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 -- READ THE CAN TRACE FILE UNTIL THE REQUIRED MESSAGE IS NOT FOUND
@@ -81,7 +85,10 @@ while index ~= nil do
     -- GETTING CAN MESSAGE TIMING FIELD OF THAT CAN ID OCCURENCE FROM CAN TRACE FILE
 
     index = index - betweenCanIdAndTiming + 1                               -- adjusting index to the required characters.
-    timing = string.sub(text, index, (index + timeField_txtLen))            -- extracting Message Timing field from CAN Trace.
+    timing_present = string.sub(text, index, (index + timeField_txtLen))    -- extracting Message Timing field from CAN Trace.
+    timing_increment = timing_present - timing_past                         -- calculate the time after which the current message has occured in the CAN Trace file w.r.t. the past occurence.
+    timing_increment = ((math.ceil(timing_increment*10))/10)                -- avoiding unecessary, erroneous long floating values.
+    timing_past = timing_present                                            -- update the past message timing.
     -- print(timing)                                                        -- DEBUG MESSAGE
 
     -- GETTING THE SERIAL NUMBER FIELD OF THAT CAN ID OCCURENCE FROM CAN TRACE FILE
@@ -151,7 +158,7 @@ while index ~= nil do
     -- DATA, RELATED TO THAT OCCURENCE OF CAN ID AND PAYLOAD INTERPRETATION, TO BE PRINTED IN CONSOLE / OUTPUT FILE 
     ----------------------------------------------------------------------------------------------------------------------------------------------
 
-    data_output = serialNum.." : "..timing.." : "..byte1.." "..byte2.." "..byte3.." "..byte4.." "..byte5.." "..byte6.." "..byte7.." "..byte8
+    data_output = serialNum.." : "..timing_increment.." \t : "..byte1.." "..byte2.." "..byte3.." "..byte4.." "..byte5.." "..byte6.." "..byte7.." "..byte8
     print(data_output)
 
     end
