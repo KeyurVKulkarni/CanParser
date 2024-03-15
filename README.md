@@ -5,6 +5,14 @@ _[Description in infant stage ; young draft and open to suggestions ; Formulated
 ## Developer's Note while the Release v0.1.1: -
 For using this program I think it would be in the best interest of the user to specify all arguments in the command line along with Lua program compilation/interpretation.  The parser has proven to be useful for me. Once the right interpretation for the CAN ID is designed, parsing the CAN ID takes seconds and visualing the Data points takes couple of stress-free minutes. Process will get streamlined after next release with the support of Data Tags.  For now I am adding all kinds of major variants of the Parser that I have developed for different messages. Will be combining them in the final full-fledged version. You can consult the documentation below to understand usage of other Parser scripts.  Thanks for using my Parser. Any feedback will be hugely appreciated!  Stay put for the future releases. Godspeed.
 
+## Why CAN Trace File Parser?
+
++ CAN Trace file usually contains all system outputs required from the device under test. Therefore it is one of the primary evidences if any change w.r.t. HW/FW needs to be observed.
++ Potential of deriving system behaviour from CAN trace file is undermined. It can be considerable in view of assisting development and debugging purposes.
++ CAN is one of the Output streams from the product through which even debug messages can be passed at a experimental stage of developing the product. Hence proving to be a medium of communication between Developer and Machine. Thus, in this light, Parser program interprets Machine data to the Developer.
++ Output Trace files from the PCAN-View are readable and hassle free.
++ Method of testing my secondary programming language ability, in my case: Lua, which can be used to complement my primary programming , in my case: C.
+
 ## Getting 'Lua' set-up on your device: -
 
 + _Get Lua 5.4 binaries_ = Can use this link to [download this Zip folder](https://drive.google.com/file/d/1b_IUj9JAIjPRejbMNKRkLzmoJ08spBAK/view?usp=drive_link) from my Drive. Unzip and place it in any known location.
@@ -92,15 +100,6 @@ e.g.: In the sample output below, maximum Cells present in the system are 32. A 
 .
 .
 ```
-
-## Next Release (hopefully before April, 2024) will include: -
-
-+ _Dialog box for input arguments_ = Since the number of arguments are expected to increase, accomodating them will be quite tricky for the User. Instead, entering those arguments that are being requested by the Dialog box, present on the command line itself, will sort input handling to the Parser.
-+ _Support for Data Tags_ = Configurable interpretation for the Data Payload is necessary as Data Payloads of different CAN IDs are different.
-
-## Future Releases before v1.0.1 shall contain: -
-
-+ _Automatic output file_ = This exists to curb the drawback of potentially losing previous data if user-specified output file is already used before. The output file name will not be configurable as possibility of over-writing previous outputs exists. It is better to have different output files for different executions. Output file indentifier can be used for keeping track among different executions. It is left to the user to clear output files of unwanted executions.
 
 ## Basic features for the CAN trace parser (in v1.0.1) will include: -
 
