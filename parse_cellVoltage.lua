@@ -11,66 +11,105 @@ file = io.open(arg[1],"r")
 text = file:read("*all")
 file:close()
 index = 1
-i = 0
+parserCellNumber = 0
 flag = 0
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+-- VARIABLES USED FOR INDEX MANIPULATION DENOTING NUMBER OF CHARACTERS
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+betweenCanIdAndPayloadLen = 2       -- number of characters between the beginning of the CAN ID field and the Data Length field.
+betweenPayloadLenAndPayload = 2     -- number of characters between the beginning of the Data Length field and the Data Payload field.
+
+data_payload_txt_len = 0            -- number of characters present in the Data Payload field that are to be read. Configured automatically as per the Data Payload Length field.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+-- READ THE CAN TRACE FILE UNTIL THE REQUIRED MESSAGE IS NOT FOUND
+----------------------------------------------------------------------------------------------------------------------------------------------
+
 while index ~= nil do
     
     flag = 0
     -- print("Entering For Loop")
-    i = 0
-    while i<=30 do
-        
-        -- print("loop "..i.." has begun") -- DEBUG MESSAGE
-        index = string.find(text, "18FF30D0", (index+23))
+    parserCellNumber = 0
+    while parserCellNumber<=30 do
+        -- print("loop "..i.." has begun")      -- DEBUG MESSAGE
+
+        ----------------------------------------------------------------------------------------------------------------------------------------------
+        -- FIND THE REQUIRED CAN ID IN THE CAN TRACE FILE
+        ----------------------------------------------------------------------------------------------------------------------------------------------
+
+        canId = "18FF30D0"                      -- fixed CAN ID for reading cell voltages.
+        canId_len = 8                           -- since, CAN ID is fixed, length of the CAN ID is also fixed.
+        index = string.find(text, canId, index) -- getting the place in the file where the required CAN ID begins.
+
+        ----------------------------------------------------------------------------------------------------------------------------------------------
+        -- EXIT CONDITION: WHEN, AFTER THE CURRENT INDEX, REQUIRED CAN ID IS NOT FOUND IN THE TRACE FILE
+        ----------------------------------------------------------------------------------------------------------------------------------------------
 
         if index == nil then
-            flag = 1
-            print("breaking from index nil")
+            flag = 1                            -- raising the flag for traceability later in the code.
+            print("breaking from index nil")    -- loop breaking debug message
             break
         else
 
-            index = index+13
-            -- print(index) -- DEBUG MESSAGE
+            ----------------------------------------------------------------------------------------------------------------------------------------------
+            -- GOING AHEAD THE INDEX TO ACCESS THE DATA PAYLOAD LENGTH AND DATA PAYLOAD FIELDS IN THE CAN TRACE
+            ----------------------------------------------------------------------------------------------------------------------------------------------
 
-            data_payload = string.sub(text, index, (index+23))
-            -- print(data_payload) -- DEBUG MESSAGE
+            -- GETTING THE DATA PAYLOAD LENGTH FIELD OF THAT CAN ID OCCURENCE FROM CAN TRACE FILE
 
-            filtered_data_payload = string.gsub(data_payload, " ", "")
-            -- print(filtered_data_payload) -- DEBUG MESSAGE
+            index = index + canId_len + betweenCanIdAndPayloadLen           -- adjusting index to the required characters.
+            data_payload_len = 8                                            -- since the CAN ID is fixed, the Data Payload Length for the given CAN ID is known to be 8
 
-            data_cellIndex = tonumber((string.sub(filtered_data_payload, 0, 4)), 16)
-            if data_cellIndex == nil then data_cellIndex = 0 end
-            -- print(data_cellIndex) -- DEBUG MESSAGE
+            -- GETTING THE DATA PAYLOAD FIELD OF THAT CAN ID OCCURENCE FROM CAN TRACE FILE
 
-            data_cellIndex0 = tonumber((string.sub(filtered_data_payload, 5, 8)), 16)
-            if data_cellIndex0 == nil then data_cellIndex0 = 0 end
-            -- print(data_cellIndex0) -- DEBUG MESSAGE
-            data_cellIndex1 = tonumber((string.sub(filtered_data_payload, 9, 12)), 16)
-            if data_cellIndex1 == nil then data_cellIndex1 = 0 end
-            -- print(data_cellIndex1) -- DEBUG MESSAGE
-            data_cellIndex2 = tonumber((string.sub(filtered_data_payload, 13, 16)), 16)
-            if data_cellIndex2 == nil then data_cellIndex2 = 0 end
-            -- print(data_cellIndex2) -- DEBUG MESSAGE
+            data_payload_txt_len = 3*data_payload_len-1                             -- based on value of data length field, calculating the number of characters for data payload.
+            -- print(data_payload_txt_len)                                          -- DEBUG MESSAGE
+            index = index + betweenPayloadLenAndPayload                             -- number of characters after which data payload starts.
+            -- print(index)                                                         -- DEBUG MESSAGE
+            data_payload = string.sub(text, index, (index+data_payload_txt_len))    -- extracting the data payload from the CAN trace.
+            -- print(data_payload)                                                  -- DEBUG MESSAGE
+            filtered_data_payload = string.gsub(data_payload, " ", "")              -- removing the spaces present in the data payload acquired from the CAN trace.
+            -- print(filtered_data_payload)                                         -- DEBUG MESSAGE
+
+            ----------------------------------------------------------------------------------------------------------------------------------------------
+            -- INTERPRETATION OF DATA FROM THE DATA PAYLOAD
+            -- (for now simplest interpetation is implemented. configurable interpretation is being developed)
+            ----------------------------------------------------------------------------------------------------------------------------------------------
+
+            data_cellIndex = tonumber((string.sub(filtered_data_payload, 0, 4)), 16)    -- (2 bytes) extracting the Cell Index, that tells which Cell's voltages are present in the CAN message 
+            if data_cellIndex == nil then data_cellIndex = 0 end                        -- handling nil value
+            -- print(data_cellIndex)                                                    -- DEBUG MESSAGE
+            data_cellIndex0 = tonumber((string.sub(filtered_data_payload, 5, 8)), 16)   -- (2 bytes) extracting voltages of Cell number (cell_index+3)
+            if data_cellIndex0 == nil then data_cellIndex0 = 0 end                      -- handling nil value
+            -- print(data_cellIndex0)                                                   -- DEBUG MESSAGE
+            data_cellIndex1 = tonumber((string.sub(filtered_data_payload, 9, 12)), 16)  -- (2 bytes) extracting voltages of Cell number (cell_index+3)
+            if data_cellIndex1 == nil then data_cellIndex1 = 0 end                      -- handling nil value
+            -- print(data_cellIndex1)                                                   -- DEBUG MESSAGE
+            data_cellIndex2 = tonumber((string.sub(filtered_data_payload, 13, 16)), 16) -- (2 bytes) extracting voltages of Cell number (cell_index+3)
+            if data_cellIndex2 == nil then data_cellIndex2 = 0 end                      -- handling nil value
+            -- print(data_cellIndex2)                                                   -- DEBUG MESSAGE
 
 
-            if data_cellIndex == 0 or data_cellIndex ~= i then -- if cell index begins from 0 (i.e. new set of cell voltages) or some arbitrary cell voltages appear ..
-                data_output = (data_cellIndex+1).." : "..data_cellIndex0.." , " -- .. then begin a new data-point ..
+            if data_cellIndex == 0 or data_cellIndex ~= parserCellNumber then                   -- if cell index begins from 0 (i.e. new set of cell voltages) or some arbitrary cell voltages appear ..
+                data_output = (data_cellIndex+1).." : "..data_cellIndex0.." , "                 -- .. then begin a new data-point ..
             else
-                data_output = data_output..(data_cellIndex+1).." : "..data_cellIndex0.." , " -- .. else continue appending the data point with previous cell voltages.
+                data_output = data_output..(data_cellIndex+1).." : "..data_cellIndex0.." , "    -- .. else continue appending the data point with previous cell voltages.
             end
             data_output = data_output..(data_cellIndex+2).." : "..data_cellIndex1.." , "
             data_output = data_output..(data_cellIndex+3).." : "..data_cellIndex2.." , "
 
-            if data_cellIndex ~= i then 
-                i = data_cellIndex
+            if data_cellIndex ~= parserCellNumber then 
+                parserCellNumber = data_cellIndex
             end
 
             if ((flag == 0 and data_cellIndex == 30)) then
                 print(data_output)
             end
         end
-        i = i+3 -- 
+        parserCellNumber = parserCellNumber+3 -- 
     end
 end
-
-print("Keyur")
+print("Thanks for using parse_cellVoltage.lua")
+print("Keyur Kulkarni")
