@@ -25,6 +25,7 @@ betweenCanIdAndPayloadLen = 2       -- number of characters between the beginnin
 betweenPayloadLenAndPayload = 2     -- number of characters between the beginning of the Data Length field and the Data Payload field.
 betweenCanIdAndTiming = 21          -- number of characters between the beginning of the CAN ID field and the Timing field.
 timeField_txtLen = 12               -- number of characters present in the Timing field that are to be read.
+
 data_payload_txt_len = 0            -- number of characters present in the Data Payload field that are to be read. Configured automatically as per the Data Payload Length field.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -106,6 +107,10 @@ while index ~= nil do
             if data_cellIndex2 == nil then data_cellIndex2 = 0 end                      -- handling nil value
             -- print(data_cellIndex2)                                                   -- DEBUG MESSAGE
 
+            ----------------------------------------------------------------------------------------------------------------------------------------------
+            -- INTERPRETATION OF DATA FROM THE DATA PAYLOAD
+            -- (for now simplest interpetation is implemented. configurable interpretation is being developed)
+            ----------------------------------------------------------------------------------------------------------------------------------------------
 
             if data_cellIndex == 0 or data_cellIndex ~= parserCellNumber then                   -- if cell index begins from 0 (i.e. new set of cell voltages) or some arbitrary cell voltages appear ..
                 data_output = timing_present.." ; C_"..(data_cellIndex+1).." : "..data_cellIndex0.." ; "                 -- .. then begin a new data-point ..
@@ -128,4 +133,5 @@ while index ~= nil do
     end
 end
 
-print("Keyur")
+print("Thanks for using parse_cellVoltage.lua")
+print("Keyur Kulkarni")
