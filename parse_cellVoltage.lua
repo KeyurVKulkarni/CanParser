@@ -20,8 +20,6 @@ index = 1
 parserCellNumber = 0
 flag = 0
 record = 0 -- number of records of cell voltages printed in the Output
--- cellNumber = arg[2]
--- loopCellNumber = ((math.floor(cellNumber/3))*3)
 
 ----------------------------------------------------------------------------------------------------------------------------------------------
 -- VARIABLES USED FOR INDEX MANIPULATION DENOTING NUMBER OF CHARACTERS
